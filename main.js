@@ -30,13 +30,33 @@ const knightMoves = (start, end) => {
         // Check if the current cell is the destination
         if (board[x][y] === "END") {
             // Reconstruct the path from end to start
+
+            // Create an empty array to hold the path
             let path = [];
-            let currKey = `${x},${y}`;
-            while (currKey) {
-                const [currX, currY] = currKey.split(",").map(Number);
-                path.push([currX, currY]);
-                currKey = prev.get(currKey);
+
+            // Start at the target cell, using its string key (for example, "3,3")
+            let currentKey = `${x},${y}`;
+
+            // Continue looping as long as currentKey has a value
+            while (currentKey !== undefined) {
+                // Split the key string into two parts: row and column
+                // e.g., "3,3" becomes ["3", "3"]
+                let parts = currentKey.split(",");
+
+                // Convert these string values into numbers
+                let row = Number(parts[0]);
+                let col = Number(parts[1]);
+
+                // Add this coordinate (as an array) to our path list
+                path.push([row, col]);
+
+                // Update currentKey by getting the previous cell's key from the 'prev' map
+                // For example, if currentKey is "3,3" and prev has "3,3" -> "2,1",
+                // then currentKey becomes "2,1" in the next iteration.
+                currentKey = prev.get(currentKey);
             }
+
+            // The path array is built from target to start, so reverse it to get the correct order
             path.reverse();
 
             console.log(`You made it in ${distance[x][y]} moves! Here's your path:`);
