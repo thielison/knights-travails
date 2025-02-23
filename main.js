@@ -18,7 +18,7 @@ const knightMoves = (start, end) => {
     // prettier-ignore
     // All 8 possible L-shaped moves of a knight
     const moves = [[2, 1], [2, -1], [-2, 1], [-2, -1], 
-                   [1, 2], [1, -2], [-1, 2], [-1, -2],];
+                   [1, 2], [1, -2], [-1, 2], [-1, -2]];
 
     const queue = [start]; // Initialize the queue with the starting cell -> queue.push(start);
     let prev = new Map(); // This will record the previous cell for each visited cell (for path reconstruction)
