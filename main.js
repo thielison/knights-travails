@@ -1,15 +1,15 @@
+// Number of rows and columns of the chess board
+const ROWS = 8;
+const COLS = 8;
+
 // Find the shortest Knight path from start to end in the chess board
 const knightMoves = (start, end) => {
-    // Number of rows and columns of the chess board
-    const rows = 8;
-    const cols = 8;
-
     // Create an 8 x 8 chess board filled with zeros
-    const board = Array.from({ length: rows }, () => Array(cols).fill(0));
+    const board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
     // Create a visited array to mark cells we've already checked
-    const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
+    const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
     // Create an array to store the number of moves (distance) to each cell
-    const distance = Array.from({ length: rows }, () => Array(cols).fill(0));
+    const distance = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 
     board[end[0]][end[1]] = "END"; // Mark the target cell with "END"
     visited[start[0]][start[1]] = true; // Mark the start cell as visited
@@ -59,10 +59,8 @@ const knightMoves = (start, end) => {
             // The path array is built from target to start, so reverse it to get the correct order
             path.reverse();
 
-            console.log(`You made it in ${distance[x][y]} moves! Here's your path:`);
-            console.log(path);
-
-            return;
+            // Return an object with the distance and the path
+            return { distance: distance[x][y], path };
         }
 
         // Try all possible knight moves from the current cell
@@ -71,7 +69,7 @@ const knightMoves = (start, end) => {
             let newY = y + dy;
 
             // Check that new coordinates are on the board (are valid) and haven't been visited
-            if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && !visited[newX][newY]) {
+            if (newX >= 0 && newX < ROWS && newY >= 0 && newY < COLS && !visited[newX][newY]) {
                 queue.push([newX, newY]); // Add the new cell to the queue
                 visited[newX][newY] = true; // Mark the cell as visited
                 distance[newX][newY] = distance[x][y] + 1; // Update the move count
@@ -85,6 +83,15 @@ const knightMoves = (start, end) => {
     return -1;
 };
 
-knightMoves([0, 0], [3, 3]); // == [[0,0],[2,1],[3,3]] or knightMoves([0,0],[3,3]) == [[0,0],[1,2],[3,3]]
-knightMoves([3, 3], [0, 0]); // == [[3,3],[2,1],[0,0]] or knightMoves([3,3],[0,0]) == [[3,3],[1,2],[0,0]]
-knightMoves([0, 0], [7, 7]); // == [[0,0],[2,1],[4,2],[6,3],[4,4],[6,5],[7,7]] or knightMoves([0,0],[7,7]) == [[0,0],[2,1],[4,2],[6,3],[7,5],[5,6],[7,7]]
+// Example calls
+const test1 = knightMoves([0, 0], [3, 3]);
+console.log(`You made it in ${test1.distance} moves! Here's your path:`);
+console.log(test1.path);
+
+const test2 = knightMoves([3, 3], [0, 0]);
+console.log(`You made it in ${test2.distance} moves! Here's your path: `);
+console.log(test2.path);
+
+const test3 = knightMoves([0, 0], [7, 7]);
+console.log(`You made it in ${test3.distance} moves! Here's your path:`);
+console.log(test3.path);
